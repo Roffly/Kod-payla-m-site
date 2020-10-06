@@ -1,0 +1,21 @@
+[
+    {
+        "kodlar": {
+            "OTO TAG": {
+                "isim": "OTO TAG",
+                "id": "eKOFCSzRjI",
+                "desc": "Oto Tag Verir",
+                "modules": [
+                    "quick.db",
+                    "discord.js"
+                ],
+                "icon": "https://cdn.discordapp.com/avatars/735381912327159819/f5188df919eb9f89b23a87d4cb3a0dbf.png",
+                "main_code": "client.on(\"guildMemberAdd\", async member => {\r\n  let tag = await db.fetch(`tag_${member.guild.id}`);\r\n  let tagyazi;\r\n  if (tag == null) tagyazi = member.setNickname(`${member.user.username}`);\r\n  else tagyazi = member.setNickname(`${tag} ${member.user.username}`);\r\n});",
+                "komutlar_code": "const Discord = require('discord.js');\r\nconst db = require('quick.db');\r\n\r\nexports.run = async (client, message, args) => {\r\n if (!message.guild) {\r\n  const readycode = new Discord.RichEmbed()\r\n  .setDescription(`:x: | Bu komutu sunucularda kullanabilirsin.`)\r\n  return message.author.send(readycode); }\r\nif (message.author.bot === true) {\r\n  return;\r\n}\r\n  \r\n  if (!message.member.hasPermission(\"MANAGE_SERVER\")) return message.channel.send(`Bu komutu kullanabilmek için \"\\`Sunucuyu Yönet\\`\" yetkisine sahip olmalısın.`);\r\n  \r\n  let tag = args[0];\r\n  let tagg = db.fetch(`tag_${message.guild.id}`)\r\n  \r\n  if (!tag) return message.channel.send('Bir tag girmelisin.')\r\n  \r\n    if(args[0] === \"sıfırla\") {\r\n    if(!tagg) {\r\n      message.channel.send(`Ayarlanmayan şeyi sıfırlayamazsın.`)\r\n      return\r\n    }\r\n    \r\n    db.delete(`tag_${message.guild.id}`)\r\n    message.channel.send(`Tag başarıyla sıfırlandı.`)\r\n    return\r\n  }\r\n  \r\n  db.set(`tag_${message.guild.id}`, tag)\r\n  message.channel.send(`Tag başarıyla \\`${tag}\\` olarak ayarlandı.`)\r\n   \r\n}\r\n\r\nmodule.exports.conf = {\r\n  enabled: true,\r\n  guildOnly: false,\r\n  aliases: [\"tags\"],\r\n  permLevel: 3\r\n};\r\n\r\nmodule.exports.help = {\r\n  name: 'ototag',\r\n  description: 'Sunucuya giren kişiler için oto tag verir',\r\n  usage: 'ototag <tag>'\r\n};",
+                "kod_rank": "topluluk",
+                "k_adi": "OyunOynar ⋈",
+                "date": "7/31/2020"
+            }
+        }
+    }
+]
